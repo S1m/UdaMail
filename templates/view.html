@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+  	<link rel="stylesheet" type="text/css" href="/css/main.css">
+    <title>View</title>
+  </head>
+
+  <body>
+    
+    <div class="login-area">
+      {% if admin %}
+        <a href="/group" class="login-link">
+          Manage Groups
+        </a>
+        |
+      {% endif %}
+      <a href="/inbox" class="login-link">
+          Inbox
+      </a>
+      {{user}}
+      <a href="/logout" class="login-link">
+        (logout)
+      </a>
+      <br>
+    </div>
+    <br><br>
+
+    <div id="content">
+
+    <div class="post">
+      <div class="post-heading">
+        <div class="post-title">{{mail.sender}}</div>
+        <div class="post-date">{{mail.created.ctime()}}</div>
+      </div>
+      <div class="post-subject">Subject: {{mail.subject}}</div>
+      <br>
+      <div class="post-cc">CC: {{mail.cc}}</div>
+      <br><br>
+      <div class="post-content">
+        {{mail.message|e|markdown()|safe}}
+      </div>
+    </div>
+  </body>
+
+</html>

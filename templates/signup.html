@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <style type="text/css">
+      .label {text-align: right}
+      .error {color: red}
+    </style>
+    <title>Sign Up</title>
+  </head>
+
+  <body>
+    <h2>Signup</h2>
+    <p>Obviously, this page should not exists as it's should redirect directly to the signup
+    process of Udacity. But for the moment, that's how you join UdaMail!</p>
+    <form method="post">
+      <table>
+        <tr>
+          <td class="label">
+            Username
+          </td>
+          <td>
+            <input type="text" name="username" value="{{user}}">
+          </td>
+          <td class="error">
+            {{errorUser}}
+          </td>
+        </tr>
+
+        <tr>
+          <td class="label">
+            Password
+          </td>
+          <td>
+            <input type="password" name="password" value="{{password}}">
+          </td>
+          <td class="error">
+            {{errorPass}}
+          </td>
+        </tr>
+
+        <tr>
+          <td class="label">
+            Verify Password
+          </td>
+          <td>
+            <input type="password" name="verify" value="{{verify}}">
+          </td>
+          <td class="error">
+            {{errorVerify}}
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="label">
+            Admin
+          </td>
+          <td>
+            <input type="checkbox" name="admin"">
+          </td>
+        </tr>
+
+      </table>
+
+      <input type="submit">
+    </form>
+  </body>
+
+</html>

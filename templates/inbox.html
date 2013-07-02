@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+      <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <title>Inbox</title>
+  </head>
+
+  <body>
+    
+    <div class="login-area">
+      {% if admin %}
+        <a href="/group" class="login-link">
+          Manage Groups
+        </a>
+        |
+      {% endif %}
+      {{user}}
+      <a href="/logout" class="login-link">
+        (logout)
+      </a>
+      <br>
+    </div>
+      
+    <div id="content">
+    <h2>Inbox</h2>
+    
+    <a href="/compose" class="post-heading">
+      Compose
+    </a>
+    <br><br>
+    
+    {% if mails %}
+      <form method="post">
+        <table width="100%" border="1">
+        <tr>
+          <th>From</th>
+          <th>Subject</th>
+          <th width="160">Time (UTC)</th>
+          <th width="60">Viewed</th>
+          <th width="60">Delete</th>
+        </tr>
+        {% for mail in mails %}
+          <tr>
+            <td><a href="/{{mail.key().id()}}">{{mail.sender}}</a></td>
+            <td>{{mail.subject[:40]}}</td>
+            <td>{{mail.created.ctime()}}</td>
+            <td>{{mail.viewed}}</td>
+            <td>
+              <input type="checkbox" name="{{mail.key().id()}}">
+            </td>
+          </tr>
+        {% endfor %}
+        </table>
+        <input type="submit" value="Apply">
+      </form>
+    {% else %}
+      <p>You have no mails! Go make some friends now...</p>
+    {% endif %}
+    </div>
+  </body>
+</html>

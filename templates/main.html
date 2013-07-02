@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+      <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <title>UdaMail</title>
+  </head>
+
+  <body>
+    
+    <div class="login-area">
+      {% if user %}
+        {% if admin %}
+        <a href="/group" class="login-link">
+          Manage Groups
+        </a>
+        |
+        {% endif %}
+        <a href="/inbox" class="login-link">
+          Inbox
+        </a>
+      {{user}}
+      <a href="/logout" class="login-link">
+        (logout)
+      </a>
+      {% else %}
+      <a href="/login" class="login-link">
+        (login)
+      </a>
+      or
+      <a href="/signup" class="login-link">
+        Signup
+      </a>
+      {% endif %}
+      <br>
+    </div>
+      
+    <div id="content">
+    <h2> Welcome to UdaMail!</h2>
+    <p> This is where you can send unappropriate messages to all of you dear friends, collegues, classmates or to anybody else on Udacity!
+    In case you've forgotten, just remember; You're awesome! Go ahead and enjoy that day.</p>
+    </div>
+  </body>
+</html>
