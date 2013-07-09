@@ -18,6 +18,9 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'Applica
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'Db')))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'Cache')))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'markdown')))
+# For unit tests
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'test')))
+import gaeunit
 
 import webapp2
 import jinja2
@@ -32,6 +35,7 @@ from SendMail import SendMail
 import markdown
 
 DEBUG = True
+UNIT_TEST = False
 
 # TODO brunets 2013-07-01 Have a little bit more flexibility than that
 RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
@@ -245,6 +249,27 @@ class ViewMail(Handler):
         mail.SetViewed(self.user)
         self.Render("view.html", mail=mail, user = self.user, admin = self.admin)
     
+# If enabled, deploy unit tests
+if UNIT_TEST:
+    class MainTestPageHandler(gaeunit.MainTestPageHandler):
+        def __init__(self, *args):
+            super(MainTestPageHandler, self).__init__(*args)
+    class JsonTestRunHandler(gaeunit.JsonTestRunHandler):
+        def __init__(self, *args):
+            super(JsonTestRunHandler, self).__init__(*args)
+    class JsonTestListHandler(gaeunit.JsonTestListHandler):
+        def __init__(self, *args):
+            super(JsonTestListHandler, self).__init__(*args)
+else:
+    class MainTestPageHandler(webapp2.RequestHandler):
+        def get(self):
+            self.error(510)
+    class JsonTestRunHandler(webapp2.RequestHandler):
+        def get(self):
+            self.error(510)
+    class JsonTestListHandler(webapp2.RequestHandler):
+        def get(self):
+            self.error(510)
 
 app = webapp2.WSGIApplication([('/', Main),
                                ('/signup', Signup),
@@ -254,5 +279,8 @@ app = webapp2.WSGIApplication([('/', Main),
                                ('/inbox', Inbox),
                                ('/compose', Compose),
                                ('/(\d+)', ViewMail),
+                               ('%s'      % gaeunit._WEB_TEST_DIR, MainTestPageHandler),
+                               ('%s/run'  % gaeunit._WEB_TEST_DIR, JsonTestRunHandler),
+                               ('%s/list' % gaeunit._WEB_TEST_DIR, JsonTestListHandler)
                                ],
                               debug=DEBUG)
